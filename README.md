@@ -1,21 +1,20 @@
 <p align="center">
-  <img src="BANNER_IMAGE_URL" width="600" />
+  <!-- Replace with your own banner image if available -->
+  <img src="https://via.placeholder.com/800x200?text=Semantics-Map-Omnigibson" alt="Project Banner" />
 </p>
 
 <h1 align="center">Semantics-Map-Omnigibson</h1>
 
 <p align="center">
-  A semantic mapping framework for Omnigibson environments.
+  A semantic mapping framework built on top of Omnigibson and fast_gicp.
 </p>
 
 ---
 
-## 🚀 Installation
+## 🚀 Installation Guide
+
+### 1️⃣ Clone the Repository (with Submodules)
 
 ```bash
-# Clone repository
-git clone https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
+git clone --recursive https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
 cd Semantics-Map-Omnigibson
-
-# Install dependencies
-pip install -r requirements.txt
