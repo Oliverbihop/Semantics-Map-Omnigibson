@@ -17,4 +17,6 @@
 
 ```bash
 git clone --recursive https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
-cd Semantics-Map-Omnigibson
+cd Semantics-Map-Omnigibson 
+```
+### 2️⃣ Install GICP (Python bindings only)
