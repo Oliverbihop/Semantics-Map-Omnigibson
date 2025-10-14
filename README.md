@@ -13,7 +13,7 @@
 
 ## 🚀 Installation Guide
 
-### 1️⃣ Clone the Repository (with Submodules)
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone --recursive https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
