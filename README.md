@@ -20,3 +20,21 @@ git clone --recursive https://github.com/Oliverbihop/Semantics-Map-Omnigibson.gi
 cd Semantics-Map-Omnigibson 
 ```
 ### 2️⃣ Install GICP (Python bindings only)
+```bash
+cd submodules/fast_gicp
+
+# Remove any previous build
+rm -rf build
+
+# Install Python bindings
+python3 setup.py install --user
+
+cd ../..
+```
+### 3️⃣ Install Omnigibson (BEHAVIOR-1K)
+```bash
+git clone https://github.com/StanfordVL/BEHAVIOR-1K.git
+cd BEHAVIOR-1K
+
+# Full installation with environment + dataset
+./setup.sh --new-env --omnigibson --bddl --joylo --dataset --eval --primitives
