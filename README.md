@@ -43,4 +43,19 @@ cd BEHAVIOR-1K
 ./setup.sh --new-env --omnigibson --bddl --joylo --dataset --eval --primitives
 ```
 ## 💾 Datasets Bag Files
-Google drive link: https://drive.google.com/drive/folders/1LHEkOGGjcsvM41ybrqrOnuIwgvTVOZE_?usp=sharing
+Google Drive link: https://drive.google.com/drive/folders/1LHEkOGGjcsvM41ybrqrOnuIwgvTVOZE_?usp=sharing
+
+## Run
+### Launch the Simulation and Control the Robot (If you want to run the robot in real-time)
+```bash
+conda activate behavior
+python3 ros2_publisher_fetch.py
+```
+### Download the dataset and unzip (If you want to run the bag file)
+```bash
+ros2 bag play <Bag_file>.bag
+```
+### Run SLAM with semantic mapping
+```bash
+python3 unify_process_run.py
+```
