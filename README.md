@@ -2,6 +2,7 @@
 
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/Oliverbihop/Semantics-Map-Omnigibson/main/assets/Screenshot 2025-10-15 162153.png" alt="Robot" width="800"/>
   <img src="https://raw.githubusercontent.com/Oliverbihop/Semantics-Map-Omnigibson/main/assets/map_capture.png" alt="Project Banner" width="800"/>
 </p>
 
