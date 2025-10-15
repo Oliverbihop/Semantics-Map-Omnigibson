@@ -1,4 +1,4 @@
-<h1 align="center">Semantics-Map-Omnigibson</h1>
+<h1 align="center">Construct Semantic Map on Omnigibson Simulation and Navigation</h1>
 
 
 <p align="center">
