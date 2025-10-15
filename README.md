@@ -40,3 +40,6 @@ cd BEHAVIOR-1K
 
 # Full installation with environment + dataset
 ./setup.sh --new-env --omnigibson --bddl --joylo --dataset --eval --primitives
+```
+## 💾 Datasets Bag Files
+Google drive link: https://drive.google.com/drive/folders/1LHEkOGGjcsvM41ybrqrOnuIwgvTVOZE_?usp=sharing
