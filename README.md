@@ -1,6 +1,6 @@
 <p align="center">
   <!-- Replace with your own banner image if available -->
-  <img src="[https://via.placeholder.com](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/map_capture.png)/800x200?text=Semantics-Map-Omnigibson" alt="Project Banner" />
+  <img src="[https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/map_capture.png]/800x200?text=Semantics-Map-Omnigibson" alt="Project Banner" />
 </p>
 
 <h1 align="center">Semantics-Map-Omnigibson</h1>
