@@ -83,7 +83,7 @@ class OmniGibsonFetchRGBDPublisher(Node):
         # Scene configuration
         scene_cfg = {
             "type": "InteractiveTraversableScene",
-            "scene_model": "Merom_0_int"
+            "scene_model": "Rs_int"
         }
         
         # Fetch robot configuration with head camera
@@ -131,36 +131,71 @@ class OmniGibsonFetchRGBDPublisher(Node):
         self.env.reset()
         self.robot.reset()
         
+        # Get current joint positions before modification
+        self.get_logger().info('='*70)
+        self.get_logger().info('Initial Joint Positions:')
+        initial_joint_pos = self.robot.get_joint_positions()
+        
         # Lower the trunk (torso) to reduce robot height
         trunk_indices = self.robot.trunk_control_idx
+        self.get_logger().info(f'Trunk indices: {trunk_indices}')
+        self.get_logger().info(f'Initial trunk position: {initial_joint_pos[trunk_indices].numpy()}')
+        
         current_joint_pos = self.robot.get_joint_positions()
         current_joint_pos[trunk_indices] = 0.0  # Fully lowered (min position)
         self.robot.set_joint_positions(current_joint_pos)
+        self.get_logger().info(f'Set trunk position to: 0.0 (fully lowered)')
         
         # Set arm to a lower pose to avoid camera occlusion
         # Get the arm control indices
         arm_indices = self.robot.arm_control_idx[self.robot.default_arm]
+        self.get_logger().info(f'\nArm indices: {arm_indices}')
+        self.get_logger().info(f'Initial arm positions: {initial_joint_pos[arm_indices].numpy()}')
+        
+        # Get arm joint names for reference
+        arm_joint_names = self.robot.arm_joint_names[self.robot.default_arm]
+        self.get_logger().info(f'Arm joint names: {arm_joint_names}')
         
         # Set arm to a tucked/lowered position
         # These joint values lower the arm to avoid blocking the camera
         lowered_arm_pose = th.tensor([
-            1.32,    # shoulder_pan: rotate arm to side
-            0.7,     # shoulder_lift: lift shoulder
-            0.0,     # upperarm_roll: no roll
-            -2.0,    # elbow_flex: bend elbow down
-            0.0,     # forearm_roll: no roll
-            -1.57,   # wrist_flex: flex wrist down
-            0.0      # wrist_roll: no roll
+            -1.5848,    # shoulder_pan_joint: rotate arm to side
+            1.4480,     # shoulder_lift_joint: lift shoulder
+            -0.0821,     # upperarm_roll_joint: no roll
+            1.6618,    # elbow_flex_joint: bend elbow down
+            1.5067,     # forearm_roll_joint: no roll
+            2.1597,   # wrist_flex_joint: flex wrist down
+            0.6459      # wrist_roll_joint: no roll
         ])
-        
+        #         [INFO] [1760497307.304619007] [omnigibson_fetch_rgbd_publisher]:   Trunk: [0.00230867]
+        # [INFO] [1760497307.305025326] [omnigibson_fetch_rgbd_publisher]:   Arm:
+        # [INFO] [1760497307.305435819] [omnigibson_fetch_rgbd_publisher]:     shoulder_pan_joint: -1.5848
+        # [INFO] [1760497307.305793751] [omnigibson_fetch_rgbd_publisher]:     shoulder_lift_joint: 1.4480
+        # [INFO] [1760497307.306120145] [omnigibson_fetch_rgbd_publisher]:     upperarm_roll_joint: -0.0821
+        # [INFO] [1760497307.306439058] [omnigibson_fetch_rgbd_publisher]:     elbow_flex_joint: 1.6618
+        # [INFO] [1760497307.306746296] [omnigibson_fetch_rgbd_publisher]:     forearm_roll_joint: 1.5067
+        # [INFO] [1760497307.307053171] [omnigibson_fetch_rgbd_publisher]:     wrist_flex_joint: 2.1597
+        # [INFO] [1760497307.307446207] [omnigibson_fetch_rgbd_publisher]:     wrist_roll_joint: 0.6459
+
         # Apply the joint positions
         current_joint_pos = self.robot.get_joint_positions()
         current_joint_pos[arm_indices] = lowered_arm_pose
         self.robot.set_joint_positions(current_joint_pos)
         
+        self.get_logger().info('\nSet arm positions to:')
+        for i, (name, value) in enumerate(zip(arm_joint_names, lowered_arm_pose)):
+            self.get_logger().info(f'  {name}: {value:.4f}')
+        
         # Step simulation a few times to let the robot settle
         for _ in range(10):
             og.sim.step()
+        
+        # Print final positions after settling
+        final_joint_pos = self.robot.get_joint_positions()
+        self.get_logger().info('\nFinal arm positions after settling:')
+        for i, (name, idx) in enumerate(zip(arm_joint_names, arm_indices)):
+            self.get_logger().info(f'  {name}: {final_joint_pos[idx]:.4f}')
+        self.get_logger().info('='*70)
         
         # Create keyboard controller
         self.action_generator = KeyboardRobotController(robot=self.robot)
@@ -484,6 +519,20 @@ class OmniGibsonFetchRGBDPublisher(Node):
                     f'Rate: {actual_rate:.1f} Hz (target: {self.target_rate} Hz) | '
                     f'Processing: avg={avg_processing:.1f}ms, max={max_processing:.1f}ms'
                 )
+                
+                # Print current arm joint positions for manual tuning
+                current_joint_pos = self.robot.get_joint_positions()
+                arm_indices = self.robot.arm_control_idx[self.robot.default_arm]
+                trunk_indices = self.robot.trunk_control_idx
+                
+                self.get_logger().info('Current Joint Positions:')
+                self.get_logger().info(f'  Trunk: {current_joint_pos[trunk_indices].numpy()}')
+                
+                arm_joint_names = self.robot.arm_joint_names[self.robot.default_arm]
+                self.get_logger().info('  Arm:')
+                for name, idx in zip(arm_joint_names, arm_indices):
+                    self.get_logger().info(f'    {name}: {current_joint_pos[idx]:.4f}')
+                
                 self.last_time = current_time
                 
         except Exception as e:
