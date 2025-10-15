@@ -49,6 +49,7 @@ cd BEHAVIOR-1K
 Google Drive link: https://drive.google.com/drive/folders/1LHEkOGGjcsvM41ybrqrOnuIwgvTVOZE_?usp=sharing
 
 ## Run
+### Note: You should choose to run with recorded data or realtime-robot.
 ### Launch the Simulation and Control the Robot (If you want to run the robot in real-time)
 ```bash
 conda activate behavior
