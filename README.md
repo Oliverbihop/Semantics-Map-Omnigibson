@@ -1,9 +1,11 @@
+<h1 align="center">Semantics-Map-Omnigibson</h1>
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Oliverbihop/Semantics-Map-Omnigibson/main/assets/map_capture.png" alt="Project Banner" width="800"/>
 </p>
 
 
-<h1 align="center">Semantics-Map-Omnigibson</h1>
 
 <p align="center">
   A semantic mapping framework built on top of Omnigibson and fast_gicp.
