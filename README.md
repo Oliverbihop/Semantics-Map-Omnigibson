@@ -16,6 +16,9 @@
 
 ## 🚀 Installation Guide
 
+### Prerequissite
+* Ubuntu 22.04
+* ROS2 Humble
 ### 1️⃣ Clone the Repository
 
 ```bash
