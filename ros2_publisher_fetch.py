@@ -83,7 +83,7 @@ class OmniGibsonFetchRGBDPublisher(Node):
         # Scene configuration
         scene_cfg = {
             "type": "InteractiveTraversableScene",
-            "scene_model": "Rs_int"
+            "scene_model": "Pomaria_2_int"
         }
         
         # Fetch robot configuration with head camera
@@ -297,11 +297,17 @@ class OmniGibsonFetchRGBDPublisher(Node):
         else:
             quat = np.array(quat, dtype=np.float64)
 
-        # Transform matrix (identity - adjust if needed for coordinate system)
+        # Transform matrix - Apply pitch rotation to tilt camera view up
+        # Pitch angle in radians (positive = tilt up, negative = tilt down)
+        pitch_angle = np.radians(20)  # 20 degrees up
+        cos_p = np.cos(pitch_angle)
+        sin_p = np.sin(pitch_angle)
+        
+        # Rotation around X-axis (pitch)
         T = np.array([
-            [1.0,  0.0, 0.0],  
-            [0.0, 1.0,  0.0],   
-            [0.0,  0.0,  1.0],
+            [1.0,  0.0,    0.0],  
+            [0.0,  cos_p, -sin_p],   
+            [0.0,  sin_p,  cos_p],
         ], dtype=np.float64)
 
         # Transform position

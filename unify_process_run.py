@@ -21,6 +21,7 @@ import message_filters
 from collections import deque
 import time
 import rerun as rr
+import open3d as o3d
 
 
 class IntegratedSLAMNode(Node):
@@ -96,6 +97,10 @@ class IntegratedSLAMNode(Node):
         self.map_instance_points = None
         self.map_instance_colors = None
         self.map_instance_ids = None
+        
+        # Accumulated RGB map
+        self.map_rgb_points = None
+        self.map_rgb_colors = None
         
         # Initialize GICP
         self.gicp = pygicp.FastGICP()
@@ -354,8 +359,8 @@ class IntegratedSLAMNode(Node):
     def update_map(self, points_world, rgb_colors, semantic_labels, instance_labels):
         """Update the accumulated map with new keyframe data."""
         # Convert labels to colors
-        semantic_colors = self.semantic_id_to_color(semantic_labels)
-        instance_colors = self.instance_id_to_color(instance_labels)
+        semantic_colors = self.semantic_id_to_color(semantic_labels).astype(np.float32) / 255.0
+        instance_colors = self.instance_id_to_color(instance_labels).astype(np.float32) / 255.0
         
         # Update semantic map
         if self.map_points is None:
@@ -396,6 +401,26 @@ class IntegratedSLAMNode(Node):
                 self.map_instance_points = self.map_instance_points[-self.max_map_points:]
                 self.map_instance_colors = self.map_instance_colors[-self.max_map_points:]
                 self.map_instance_ids = self.map_instance_ids[-self.max_map_points:]
+        
+        # Update RGB map
+        rgb_colors_normalized = rgb_colors.astype(np.float32) / 255.0
+        if self.map_rgb_points is None:
+            self.map_rgb_points = points_world.copy()
+            self.map_rgb_colors = rgb_colors_normalized
+        else:
+            self.map_rgb_points = np.vstack([self.map_rgb_points, points_world])
+            self.map_rgb_colors = np.vstack([self.map_rgb_colors, rgb_colors_normalized])
+            
+            # Downsample (reusing voxel_downsample_map, but we don't need labels for RGB)
+            voxel_indices = np.floor(self.map_rgb_points / self.voxel_size).astype(np.int32)
+            _, unique_idx = np.unique(voxel_indices, axis=0, return_index=True)
+            self.map_rgb_points = self.map_rgb_points[unique_idx]
+            self.map_rgb_colors = self.map_rgb_colors[unique_idx]
+            
+            # Limit size
+            if len(self.map_rgb_points) > self.max_map_points:
+                self.map_rgb_points = self.map_rgb_points[-self.max_map_points:]
+                self.map_rgb_colors = self.map_rgb_colors[-self.max_map_points:]
 
     def integrated_callback(self, rgb_msg, depth_msg, semantic_msg, instance_msg):
         """Integrated callback that performs SLAM and mapping synchronously."""
@@ -646,6 +671,9 @@ class IntegratedSLAMNode(Node):
         if self.map_instance_points is not None:
             rr.log("world/map/instance", rr.Points3D(positions=self.map_instance_points, colors=self.map_instance_colors))
         
+        if self.map_rgb_points is not None:
+            rr.log("world/map/rgb", rr.Points3D(positions=self.map_rgb_points, colors=self.map_rgb_colors))
+        
         # Log keyframe indicator
         if is_keyframe:
             rr.log("info/keyframe", rr.TextLog(f"KEYFRAME {len(self.keyframes)}", level=rr.TextLogLevel.INFO))
@@ -700,22 +728,32 @@ class IntegratedSLAMNode(Node):
         self.tf_broadcaster.sendTransform(tf_msg)
 
     def save_maps(self, filename_prefix='integrated_slam_map'):
-        """Save accumulated maps to disk."""
+        """Save accumulated maps to disk as PLY files."""
         if self.map_points is not None:
-            np.save(f'{filename_prefix}_semantic_points.npy', self.map_points)
-            np.save(f'{filename_prefix}_semantic_colors.npy', self.map_colors)
-            np.save(f'{filename_prefix}_semantic_labels.npy', self.map_semantic_ids)
+            semantic_pcd = o3d.geometry.PointCloud()
+            semantic_pcd.points = o3d.utility.Vector3dVector(self.map_points)
+            semantic_pcd.colors = o3d.utility.Vector3dVector(self.map_colors)
+            o3d.io.write_point_cloud(f'{filename_prefix}_semantic.ply', semantic_pcd) 
             self.get_logger().info(f'Saved semantic map: {len(self.map_points)} points')
         
         if self.map_instance_points is not None:
-            np.save(f'{filename_prefix}_instance_points.npy', self.map_instance_points)
-            np.save(f'{filename_prefix}_instance_colors.npy', self.map_instance_colors)
-            np.save(f'{filename_prefix}_instance_labels.npy', self.map_instance_ids)
+            instance_pcd = o3d.geometry.PointCloud()
+            instance_pcd.points = o3d.utility.Vector3dVector(self.map_instance_points)
+            instance_pcd.colors = o3d.utility.Vector3dVector(self.map_instance_colors)
+            o3d.io.write_point_cloud(f'{filename_prefix}_instance.ply', instance_pcd)
             self.get_logger().info(f'Saved instance map: {len(self.map_instance_points)} points')
+        
+        if self.map_rgb_points is not None:
+            rgb_pcd = o3d.geometry.PointCloud()
+            rgb_pcd.points = o3d.utility.Vector3dVector(self.map_rgb_points)
+            rgb_pcd.colors = o3d.utility.Vector3dVector(self.map_rgb_colors)
+            o3d.io.write_point_cloud(f'{filename_prefix}_rgb.ply', rgb_pcd)
+            self.get_logger().info(f'Saved RGB map: {len(self.map_rgb_points)} points')
 
     def destroy_node(self):
-        self.get_logger().info('Shutting down Integrated SLAM node...')
         self.save_maps()
+        self.get_logger().info('Shutting down Integrated SLAM node...')
+        
         super().destroy_node()
 
 
