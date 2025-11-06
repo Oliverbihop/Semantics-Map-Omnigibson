@@ -47,12 +47,13 @@ This takes 10-20 minutes. It will:
 ./docker.sh run --headless
 ```
 
-You'll start in: `/omnigibson-src/Semantics-Map-Omnigibson`
+You'll start in: `/omnigibson-src`
 
-### Step 3: Run Your Main Script (Change in Docker file, if need to run on source)
+### Step 3: Run Main Script 
 
 ```bash
 # Inside the container
+cd /Semantics-Map-Omnigibson
 ./run_robot_micromamba.sh
 ```
 
