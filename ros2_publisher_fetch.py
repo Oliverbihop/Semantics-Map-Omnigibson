@@ -119,8 +119,8 @@ class OmniGibsonFetchRGBDPublisher(Node):
             "gripper_right": {"name": "MultiFingerGripperController"},
         }
         self.robot.reload_controllers(controller_config=controller_config)
-        self.env.scene.update_initial_file()
-        
+        # self.env.scene.update_initial_file()
+        self.env.scene.update_initial_state()
         # Set camera pose for viewer
         og.sim.viewer_camera.set_position_orientation(
             position=th.tensor([1.46949, -3.97358, 2.21529]),
