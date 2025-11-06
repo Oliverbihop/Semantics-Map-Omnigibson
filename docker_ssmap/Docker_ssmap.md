@@ -49,7 +49,7 @@ This takes 10-20 minutes. It will:
 
 You'll start in: `/omnigibson-src/Semantics-Map-Omnigibson`
 
-### Step 3: Run Your Main Script
+### Step 3: Run Your Main Script (Change in Docker file, if need to run on source)
 
 ```bash
 # Inside the container
