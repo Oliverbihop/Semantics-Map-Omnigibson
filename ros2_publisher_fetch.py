@@ -83,7 +83,7 @@ class OmniGibsonFetchRGBDPublisher(Node):
         # Scene configuration
         scene_cfg = {
             "type": "InteractiveTraversableScene",
-            "scene_model": "Pomaria_2_int"
+            "scene_model": "Rs_int"
         }
         
         # Fetch robot configuration with head camera
