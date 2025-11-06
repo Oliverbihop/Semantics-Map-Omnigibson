@@ -45,6 +45,8 @@ This takes 10-20 minutes. It will:
 
 # Without GUI (headless)
 ./docker.sh run --headless
+
+#In this step, we need to accept the "BEHAVIOR DATA BUNDLE END USER LICENSE AGREEMENT"
 ```
 
 You'll start in: `/omnigibson-src`
