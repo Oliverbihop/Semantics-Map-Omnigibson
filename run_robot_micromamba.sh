@@ -19,7 +19,7 @@ exec bash
 "
 
 # Wait 150 seconds before launching the second one
-sleep 150
+sleep 60
 
 # Open second terminal → activate micromamba env → run unify_process_run.py
 gnome-terminal -- bash -c "
