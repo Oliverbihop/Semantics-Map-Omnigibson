@@ -164,7 +164,10 @@ print_status "Installing additional SLAM dependencies..."
 apt-get install -y \
     libboost-all-dev \
     libtbb-dev
-
+apt-get install -y \
+	libcanberra-gtk-module \
+	libcanberra-gtk3-module
+apt install -y dbus-x11
 #==========================================
 # Setup ROS 2 Environment
 #==========================================

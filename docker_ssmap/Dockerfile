@@ -20,8 +20,12 @@ RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
 # Set environment variables
 ENV ROS_DISTRO=humble
+ENV WORKSPACE_DIR=/root/semantics_map_ws
 
 # Working directory will be in /omnigibson-src/Semantics-Map-Omnigibson
-WORKDIR /omnigibson-src
+WORKDIR /omnigibson-src/Semantics-Map-Omnigibson
+
+# Make the main run script executable
+RUN if [ -f run_robot_micromamba.sh ]; then chmod +x run_robot_micromamba.sh; fi
 
 CMD ["bash"]
