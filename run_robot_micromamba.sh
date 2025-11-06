@@ -2,6 +2,7 @@
 source /opt/ros/humble/setup.bash
 
 # Define your micromamba environment name
+export NO_AT_BRIDGE=1
 MAMBA_ENV="omnigibson"
 
 # Path to micromamba initialization script
