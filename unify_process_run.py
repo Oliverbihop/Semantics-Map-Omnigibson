@@ -6,6 +6,12 @@ Combines odometry estimation and mapping in a single process for perfect synchro
 Only publishes final odometry and visualizes the map in Rerun.
 """
 
+# ============================================================================
+# RERUN CONTROL FLAG - Set to True to enable Rerun visualization
+# ============================================================================
+ENABLE_RERUN = False  # Set to False to disable Rerun completely
+# ============================================================================
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image, CameraInfo
@@ -20,8 +26,11 @@ from scipy.spatial.transform import Rotation
 import message_filters
 from collections import deque
 import time
-import rerun as rr
 import open3d as o3d
+
+# Conditional Rerun import
+if ENABLE_RERUN:
+    import rerun as rr
 
 
 class IntegratedSLAMNode(Node):
@@ -107,9 +116,12 @@ class IntegratedSLAMNode(Node):
         self.gicp.set_num_threads(self.num_threads)
         self.gicp.set_max_correspondence_distance(self.max_correspondence_distance)
         
-        # Initialize Rerun
-        rr.init("integrated_slam", spawn=True)
-        self.get_logger().info('Rerun viewer initialized')
+        # Initialize Rerun (conditional)
+        if ENABLE_RERUN:
+            rr.init("integrated_slam", spawn=True)
+            self.get_logger().info('Rerun viewer initialized')
+        else:
+            self.get_logger().info('Rerun visualization DISABLED')
         
         # Subscribers
         self.camera_info_sub = self.create_subscription(
@@ -148,6 +160,7 @@ class IntegratedSLAMNode(Node):
         self.get_logger().info(f'Keyframe rotation: {self.keyframe_rotation}°')
         self.get_logger().info(f'Map voxel size: {self.voxel_size}m')
         self.get_logger().info('Coordinate system: X-forward, Y-left, Z-up (ROS)')
+        self.get_logger().info(f'Rerun visualization: {"ENABLED" if ENABLE_RERUN else "DISABLED"}')
         self.get_logger().info('Waiting for RGB-D data...')
         self.get_logger().info('='*70)
 
@@ -441,8 +454,9 @@ class IntegratedSLAMNode(Node):
         self.processing = True
         
         try:
-            # Set Rerun timeline
-            rr.set_time_sequence("frame", self.frame_count)
+            # Set Rerun timeline (conditional)
+            if ENABLE_RERUN:
+                rr.set_time_sequence("frame", self.frame_count)
             
             # Convert messages
             rgb_image = self.bridge.imgmsg_to_cv2(rgb_msg, desired_encoding='rgb8')
@@ -553,9 +567,10 @@ class IntegratedSLAMNode(Node):
                     covariance = self.compute_adaptive_covariance(transformation, fitness_score)
                     self.publish_odometry(rgb_msg.header.stamp, covariance)
                     
-                    # Visualization in Rerun
-                    self.visualize_rerun(rgb_image, depth_image, semantic_image, instance_image,
-                                        points_local, pixel_coords, is_keyframe, fitness_score)
+                    # Visualization in Rerun (conditional)
+                    if ENABLE_RERUN:
+                        self.visualize_rerun(rgb_image, depth_image, semantic_image, instance_image,
+                                            points_local, pixel_coords, is_keyframe, fitness_score)
                     
                     self.processed_count += 1
                     
@@ -597,9 +612,10 @@ class IntegratedSLAMNode(Node):
                 
                 self.publish_odometry(rgb_msg.header.stamp, covariance)
                 
-                # Visualization
-                self.visualize_rerun(rgb_image, depth_image, semantic_image, instance_image,
-                                    points_local, pixel_coords, is_keyframe, 1.0)
+                # Visualization (conditional)
+                if ENABLE_RERUN:
+                    self.visualize_rerun(rgb_image, depth_image, semantic_image, instance_image,
+                                        points_local, pixel_coords, is_keyframe, 1.0)
             
             # Store previous cloud
             if np.all(np.isfinite(points_slam)) and len(points_slam) >= 50:
@@ -633,6 +649,9 @@ class IntegratedSLAMNode(Node):
     def visualize_rerun(self, rgb_image, depth_image, semantic_image, instance_image,
                        points_local, pixel_coords, is_keyframe, fitness_score):
         """Visualize data in Rerun."""
+        if not ENABLE_RERUN:
+            return
+        
         # Log images
         rr.log("images/rgb", rr.Image(rgb_image))
         rr.log("images/depth", rr.DepthImage(depth_image))
@@ -778,8 +797,11 @@ def main(args=None):
         print("  - /odometry/gicp")
         print("  - TF: odom -> base_link")
         print("\nVisualization:")
-        print("  - Rerun viewer with semantic/instance maps")
-        print("  - Camera trajectory and keyframes")
+        if ENABLE_RERUN:
+            print("  - Rerun viewer with semantic/instance maps [ENABLED]")
+            print("  - Camera trajectory and keyframes")
+        else:
+            print("  - Rerun visualization [DISABLED]")
         print("\nPress Ctrl+C to save maps and exit")
         print("="*70 + "\n")
         
