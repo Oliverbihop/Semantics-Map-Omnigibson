@@ -72,7 +72,7 @@ Use the provided script to launch all terminals automatically:
 
 ```bash
 cd /omnigibson-src/ros2_nav
-./run_ros2_navigation.sh
+./run_rosnav.sh
 ```
 
 
