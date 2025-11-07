@@ -64,3 +64,52 @@ Once inside the container, you'll be in the `/omnigibson-src` directory with the
 │   └── build/
 └── omnigibson_data/       # Persistent data (mounted from host)
 ```
+## Usage
+
+### Automated Multi-Terminal Launch
+
+Use the provided script to launch all terminals automatically:
+
+```bash
+cd /omnigibson-src/ros2_nav
+./run_ros2_navigation.sh
+```
+
+
+### Manual Navigation Setup
+
+If you prefer to run commands manually, open separate terminals:
+
+**Terminal 1 - Bridge**:
+```bash
+source install/setup.bash
+cd src/behavior/
+python3 bridge.py
+```
+
+Wait 60 seconds, then in a new terminal:
+
+**Terminal 2 - Navigation Launch**:
+```bash
+source install/setup.bash
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=false map:=/omnigibson-src/ros2_nav/src/behavior/maps/trav_map.yaml
+```
+
+**Terminal 3 - TF link publish**:
+```bash
+source install/setup.bash
+ros2 run behavior tf_publisher
+```
+
+**Terminal 4 - Navigate Node**:
+```bash
+source install/setup.bash
+ros2 run behavior navigate_node
+```
+
+**Terminal 5 - Goal Publisher** (loops every 5 seconds):
+```bash
+source install/setup.bash
+ros2 run behavior goal_publisher 4
+```
+
