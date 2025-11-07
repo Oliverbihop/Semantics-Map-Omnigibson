@@ -1,4 +1,4 @@
-# Semantics-Map-Omnigibson - Docker Setup
+# Object Navigation Omnigibson - Docker Setup
 
 Simple Docker setup for Semantics-Map-Omnigibson Navigation with ROS 2 Humble.
 
