@@ -1,19 +1,16 @@
 #!/bin/bash
-
+export NO_AT_BRIDGE=1
 # Terminal 1: Run bridge.py and wait 60s
 gnome-terminal -- bash -c "
 echo '=== Terminal 1: Bridge ===';
-source install/setup.bash;
-<<<<<<< HEAD
 cd src/behavior/;
 echo 'Changed directory to: \$(pwd)';
 echo 'Starting bridge.py...';
-python3 bridge.py;
+python bridge.py;
 exec bash
 "
 
-# Wait 60 seconds before launching navigation
-sleep 60
+sleep 90
 
 # Terminal 2: Run navigation_launch
 gnome-terminal -- bash -c "
@@ -27,21 +24,21 @@ exec bash
 # Wait a moment before launching next terminal
 sleep 2
 
-# Terminal 3: Run first navigate_node
+# Terminal 3: Run tf_publisher
 gnome-terminal -- bash -c "
-echo '=== Terminal 3: Navigate Node 1 ===';
+echo '=== Terminal 3: Navigate TF_Publisher ===';
 source install/setup.bash;
 echo 'Starting navigate_node...';
-ros2 run behavior navigate_node;
+ros2 run behavior tf_publisher;
 exec bash
 "
 
 # Wait a moment before launching next terminal
 sleep 2
 
-# Terminal 4: Run second navigate_node
+# Terminal 4: Run navigate_node
 gnome-terminal -- bash -c "
-echo '=== Terminal 4: Navigate Node 2 ===';
+echo '=== Terminal 4: Navigate Node===';
 source install/setup.bash;
 echo 'Starting navigate_node...';
 ros2 run behavior navigate_node;
