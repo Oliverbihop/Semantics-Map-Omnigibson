@@ -4,6 +4,7 @@
 gnome-terminal -- bash -c "
 echo '=== Terminal 1: Bridge ===';
 source install/setup.bash;
+<<<<<<< HEAD
 cd src/behavior/;
 echo 'Changed directory to: \$(pwd)';
 echo 'Starting bridge.py...';
@@ -18,6 +19,16 @@ sleep 60
 gnome-terminal -- bash -c "
 echo '=== Terminal 2: Navigation Launch ===';
 source install/setup.bash;
+=======
+cd /src/behavior/;
+echo 'Changed directory to: \$(pwd)';
+echo 'Starting bridge.py...';
+python3 bridge.py &
+BRIDGE_PID=\$!;
+echo 'Bridge running with PID: \$BRIDGE_PID';
+echo 'Waiting 60 seconds...';
+sleep 60;
+>>>>>>> 1b21dd6a5cb2c6fa72a19eb3e198030bd5ea35ba
 echo 'Starting navigation launch...';
 ros2 launch nav2_bringup navigation_launch.py use_sim_time:=false map:=/omnigibson-src/ros2_nav/src/behavior/maps/trav_map.yaml;
 exec bash
