@@ -80,7 +80,7 @@ cd /omnigibson-src/ros2_nav
 
 If you prefer to run commands manually, open separate terminals:
 
-**Terminal 1 - Bridge**:
+**Terminal 1 - Bridge_ Robot physics**:
 ```bash
 source install/setup.bash
 cd src/behavior/
