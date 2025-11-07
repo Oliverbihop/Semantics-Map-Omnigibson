@@ -19,6 +19,9 @@
 ### Prerequissite
 * Ubuntu 22.04
 * ROS2 Humble
+### Docker Instruction
+* Please refer to docker_nav and docker_ssmap
+
 ### 1️⃣ Clone the Repository
 
 ```bash
