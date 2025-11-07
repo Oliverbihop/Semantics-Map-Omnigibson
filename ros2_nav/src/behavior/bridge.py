@@ -92,7 +92,7 @@ def main():
     robot = env.robots[0]
 
     # Generate traversability map /data/og_dataset/scenes/{scene_model}/layout
-    trav_map = cv2.imread(f"~/omnigibson/data/og_dataset/scenes/{scene_model}/layout/floor_trav_0.png")
+    trav_map = cv2.imread(f"/data/og_dataset/scenes/{scene_model}/layout/floor_trav_0.png")
     trav_map = cv2.erode(trav_map, th.ones((trav_map_erosion, trav_map_erosion)).cpu().numpy())
 
     cv2.imwrite("./maps/trav_map.png", trav_map)
