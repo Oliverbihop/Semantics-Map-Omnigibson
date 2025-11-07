@@ -3,7 +3,7 @@
 Simple Docker setup for Semantics-Map-Omnigibson Navigation with ROS 2 Humble.
 
 
-## System Requirements
+## System Prerequisites
 - Ubuntu 22.04 (host machine)
 - NVIDIA GPU with CUDA support
 - Docker installed
@@ -11,8 +11,6 @@ Simple Docker setup for Semantics-Map-Omnigibson Navigation with ROS 2 Humble.
 - At least 28GB free disk space
 
 ## 📦 Initial Setup
-
-## Prerequisites
 Clone the repository with sparse checkout:
 
 ```bash
