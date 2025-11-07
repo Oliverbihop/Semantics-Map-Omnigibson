@@ -68,7 +68,7 @@ class Nav2NavigationNode(Node):
         # Parameter: image path
         self.declare_parameter(
             'image_path',
-            '~/ros2_nav/src/behavior/maps/trav_map.png'
+            '/omnigibson-src/ros2_nav/src/behavior/maps/trav_map.png'
         )
         
         # Load and publish map
