@@ -20,7 +20,7 @@ git remote add origin https://github.com/Oliverbihop/Semantics-Map-Omnigibson.gi
 git sparse-checkout init --cone
 git sparse-checkout set docker_nav
 git pull origin main
-cd docker_ssmap
+cd docker_nav
 ```
 ## Implementation
 
