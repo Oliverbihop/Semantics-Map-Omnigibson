@@ -50,7 +50,7 @@ def main():
         return
     obj_id = int(sys.argv[1])
     rclpy.init()
-    data = load_analysis_data('./analysis.json')
+    data = load_analysis_data('/omnigibson-src/ros2_nav/src/behavior/analysis.json')
 
     obj = get_object_by_id(data['objects'], obj_id)
     
