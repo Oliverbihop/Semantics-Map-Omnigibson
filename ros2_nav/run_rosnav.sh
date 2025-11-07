@@ -4,8 +4,10 @@
 gnome-terminal -- bash -c "
 echo '=== Terminal 1: Bridge and Navigation Launch ===';
 source install/setup.bash;
+cd ros2_nav/src/behavior/;
+echo 'Changed directory to: \$(pwd)';
 echo 'Starting bridge.py...';
-python3 ros2_nav/src/behavior/bridge.py &
+python3 bridge.py &
 BRIDGE_PID=\$!;
 echo 'Bridge running with PID: \$BRIDGE_PID';
 echo 'Waiting 60 seconds...';
