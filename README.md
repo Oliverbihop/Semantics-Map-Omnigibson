@@ -20,7 +20,7 @@
 * Ubuntu 22.04
 * ROS2 Humble
 ### Docker Instruction
-* Please refer to docker_nav and docker_ssmap
+* Please refer to the readme file in docker_nav and docker_ssmap
 
 ### 1️⃣ Clone the Repository
 
