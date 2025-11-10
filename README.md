@@ -1,7 +1,7 @@
 <h1 align="center">Construct Semantic Map on Omnigibson Simulation and Navigation</h1>
 <div align="center">
 
-[![Watch the video](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Screenshot%202025-10-15%20162153.png)](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Media3.mp4)
+[![Watch the video](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Screenshot%202025-10-15%20162153.png)]([https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Media3.mp4](https://youtu.be/19Ay2go7jEI))
 
 </div>
 
