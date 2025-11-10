@@ -2,7 +2,6 @@
 <div align="center">
 
 [![Watch the video](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Screenshot%202025-10-15%20162153.png)](https://www.youtube.com/watch?v=19Ay2go7jEI)
-
 <br>
 <a href="https://www.youtube.com/watch?v=19Ay2go7jEI">▶️ Watch demo video on YouTube</a>
 
