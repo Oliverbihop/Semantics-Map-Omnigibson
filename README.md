@@ -7,7 +7,6 @@
 </div>
 
 <p align="center">
- 
   <img src="https://raw.githubusercontent.com/Oliverbihop/Semantics-Map-Omnigibson/main/assets/map_capture.png" alt="Project Banner" width="800"/>
 </p>
 
