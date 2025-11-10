@@ -1,7 +1,7 @@
 <h1 align="center">Construct Semantic Map on Omnigibson Simulation and Navigation</h1>
 
 
-<video src="assets/Media3.mp4" controls width="600"></video>
+<video src="assets/Media3.mp4" controls width="900"></video>
 
 
 <p align="center">
