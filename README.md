@@ -1,8 +1,7 @@
 <h1 align="center">Construct Semantic Map on Omnigibson Simulation and Navigation</h1>
 
 
-<video src="assets/Media3.mp4" controls width="900"></video>
-
+[![Demo](demo.gif)](https://github.com/Oliverbihop/Semantics-Map-Omnigibson/blob/main/assets/Media3.mp4)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Oliverbihop/Semantics-Map-Omnigibson/main/assets/Screenshot 2025-10-15 162153.png" alt="Robot" width="800"/>
