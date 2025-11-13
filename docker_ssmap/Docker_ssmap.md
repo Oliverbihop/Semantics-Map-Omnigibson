@@ -30,7 +30,6 @@ rm -rf Semantics-Map-Omnigibson
 cd "$HOME/BEHAVIOR-1K/OmniGibson/docker/docker_ssmap"
 ls
 ```
-Your main script: **`run_robot_micromamba.sh`** is to run!
 
 ## 📁 Files
 
