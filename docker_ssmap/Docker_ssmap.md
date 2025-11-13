@@ -5,17 +5,31 @@ Simple Docker setup for Semantics-Map-Omnigibson with ROS 2 Humble.
 ## 📦 Initial Setup
 
 Clone the repository with sparse checkout:
-
 ```bash
+# 1️⃣ Clone BEHAVIOR-1K v3.7.0
 git clone -b v3.7.0 https://github.com/StanfordVL/BEHAVIOR-1K.git
-cd BEHAVIOR-1K/OmniGibson/
-git remote add origin https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
+cd BEHAVIOR-1K/OmniGibson/docker
+
+# 2️⃣ Go to a temporary directory and clone only the Semantics-Map-Omnigibson repo
+cd /tmp
+git clone --depth 1 --filter=blob:none --sparse https://github.com/Oliverbihop/Semantics-Map-Omnigibson.git
+cd Semantics-Map-Omnigibson
+
+# 3️⃣ Enable sparse checkout and select only docker_ssmap
 git sparse-checkout init --cone
 git sparse-checkout set docker_ssmap
-git pull origin main
-cd docker_ssmap
-```
 
+# 4️⃣ Copy the folder into your target BEHAVIOR-1K docker directory
+cp -r docker_ssmap "$HOME/BEHAVIOR-1K/OmniGibson/docker/"
+
+# 5️⃣ Clean up the temporary clone
+cd ..
+rm -rf Semantics-Map-Omnigibson
+
+# ✅ Now the folder is available
+cd "$HOME/BEHAVIOR-1K/OmniGibson/docker/docker_ssmap"
+ls
+```
 Your main script: **`run_robot_micromamba.sh`** is ready to run!
 
 ## 📁 Files
