@@ -29,6 +29,9 @@ cp -r docker_ssmap "$HOME/BEHAVIOR-1K/OmniGibson/docker/"
 cd ..
 rm -rf Semantics-Map-Omnigibson
 
+cd $HOME/BEHAVIOR-1K/OmniGibson/docker/docker_ssmap
+
+
 ```
 
 ## 📁 Files
