@@ -6,7 +6,7 @@ Simple Docker setup for Semantics-Map-Omnigibson with ROS 2 Humble.
 
 Clone the repository with sparse checkout:
 ```bash
-We are in $HOME space.
+# We are in $HOME space.
 # 1️⃣ Clone BEHAVIOR-1K v3.7.0
 git clone -b v3.7.0 https://github.com/StanfordVL/BEHAVIOR-1K.git
 
