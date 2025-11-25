@@ -72,5 +72,11 @@ ros2 bag play <Bag_file>.bag
 ```bash
 python3 unify_process_run.py
 ```
+## 📂 Object-Area Connection Map
+* After scanning the map, there are 3 files (.ply): instance, semantic, and color ply files are generated. The code to export a JSON file with ID-object could be run as:
+```bash
+python3 read_ply_files.py
+```
+The exported JSON file (analysis.json) could be placed into the navigation package to support the ID-selected navigation.
 ## 🤖 Navigation 
 Please see in docker_nav
