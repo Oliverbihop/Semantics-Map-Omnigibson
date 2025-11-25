@@ -78,5 +78,9 @@ python3 unify_process_run.py
 python3 read_ply_files.py
 ```
 The exported JSON file (analysis.json) could be placed into the navigation package to support the ID-selected navigation.
+* We could use the label tool to make object-area connections, which will support the high-level tasks such as VLM navigation. The code loads JSON file (analysis.json) and the image output by running read_ply_files.py
+```bash
+python3 label_objects_and_areas.py
+```
 ## 🤖 Navigation 
 Please see in docker_nav
